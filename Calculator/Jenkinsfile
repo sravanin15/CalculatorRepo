@@ -9,26 +9,26 @@ pipeline{
             stage('Git-Checkout')
             {
                 steps{
-                     git 'https://github.com/sreelakshmi665/mavenJunitTest.git'
+                     git 'https://github.com/sravanin15/CalculatorRepo.git'
                 }
             }
              stage('Validate')
         {
             steps{
-                bat 'mvn -f MavenJunitTest validate'
+                bat 'mvn -f Calculator validate'
             }
         }
         stage('Compile')
         {
             steps{
-                bat 'mvn -f  MavenJunitTest compile'
+                bat 'mvn -f  Calculator compile'
             }
         }
         stage('sonar analysis'){
             steps{
                 withSonarQubeEnv('sonar-server'){
                     withMaven(maven:'Maven'){
-                        bat 'mvn -f MavenJunitTest sonar:sonar'
+                        bat 'mvn -f Calculator sonar:sonar'
                     }
                 }
             }
@@ -38,25 +38,25 @@ pipeline{
         stage('Test')
         {
             steps{
-                bat 'mvn -f  MavenJunitTest test'
+                bat 'mvn -f  Calculatort test'
             }
         }
         stage('Package')
         {
             steps{
-                bat 'mvn -f  MavenJunitTest package'
+                bat 'mvn -f  Calculator package'
             }
         }
         stage('Verify')
         {
             steps{
-                bat 'mvn -f MavenJunitTest verify'
+                bat 'mvn -f Calculator verify'
             }
         }
         stage('Install')
         {
             steps{
-                bat 'mvn -f  MavenJunitTest install '
+                bat 'mvn -f  Calculator install '
             }
         }
         
@@ -68,7 +68,7 @@ pipeline{
           spec: '''{
           "files": [
             {
-              "pattern": "MavenJunitTest/target/*.jar",
+              "pattern": "Calculator/target/*.jar",
               "target": "art-doc-dev-loc"
             }
          ]
@@ -88,7 +88,7 @@ pipeline{
              echo 'This will run only if successful'  
          }  
          failure {  
-             mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'sreelakshmilucky14@gmail.com', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "sreelakshmilucky14@gmail.com";  
+             mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'sravaninuthanapati15@gmail.com', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "sravaninuthanapati15@gmail.com";  
          }  
          unstable {  
              echo 'This will run only if the run was marked as unstable'  

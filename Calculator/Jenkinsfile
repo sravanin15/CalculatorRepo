@@ -15,7 +15,7 @@ pipeline{
              stage('Validate')
         {
             steps{
-                bat 'mvn -f Calculator validate'
+                bat 'mvn -f Calculator clean validate'
             }
         }
         stage('Compile')

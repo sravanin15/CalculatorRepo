@@ -62,7 +62,7 @@ pipeline{
        stage('Artifactory')
     {
       steps{
-        archiveArtifacts artifacts:'HelloWorld/target/*.jar',followSymlinks:false
+        archiveArtifacts artifacts:'Calculator/target/*.jar',followSymlinks:false
       }
     }   
     stage('Deploy-To-Artifactory')

@@ -6,7 +6,7 @@ pipeline{
         jdk 'jdk'
     }
         stages{
-            stage('Git-Checkout')
+            stage('Git-Checkout ')
             {
                 steps{
                      git 'https://github.com/sravanin15/CalculatorRepo.git'

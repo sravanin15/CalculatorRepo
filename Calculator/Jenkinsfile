@@ -2,7 +2,7 @@ pipeline{
     agent any
    
     tools { 
-        maven 'Maven'
+        maven 'maven'
         jdk 'jdk'
     }
         stages{
@@ -26,8 +26,8 @@ pipeline{
         }
         stage('sonar analysis'){
             steps{
-                withSonarQubeEnv('sonar-server'){
-                    withMaven(maven:'Maven'){
+                withSonarQubeEnv('sonarserver'){
+                    withMaven(maven:'maven'){
                         bat 'mvn -f Calculator sonar:sonar'
                     }
                 }

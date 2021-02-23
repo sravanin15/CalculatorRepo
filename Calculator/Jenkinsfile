@@ -34,11 +34,7 @@ pipeline{
             }
 
         }
-         stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
+        
         stage('Test')
         {
             steps{
@@ -63,7 +59,12 @@ pipeline{
                 bat 'mvn -f  Calculator install '
             }
         }
-        
+       stage('Artifactory')
+    {
+      steps{
+        archiveArtifacts artifacts:'HelloWorld/target/*.jar',followSymlinks:false
+      }
+    }   
     stage('Deploy-To-Artifactory')
     {
       steps{

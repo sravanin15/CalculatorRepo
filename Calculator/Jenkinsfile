@@ -9,46 +9,59 @@ pipeline{
             stage('Git-Checkout ')
             {
                 steps{
+                    script{
+                        FAILED_STAGE=env.STAGE_NAME
                      git 'https://github.com/sravanin15/CalculatorRepo.git'
-                    FAILED_STAGE=env.STAGE_NAME
+                    
+                    }
                 }
             }
              stage('Validate')
         {
             steps{
+                 script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mn -f Calculator clean validate'
+                 }
             }
         }
         stage('Compile')
         {
             steps{
+                script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f  Calculator compile'
+                }
             }
         }
         stage('sonar analysis'){
             steps{
+                script{
                 FAILED_STAGE=env.STAGE_NAME
                 withSonarQubeEnv('sonarserver'){
                     withMaven(maven:'maven'){
                         bat 'mvn -f Calculator sonar:sonar'
                     }
                 }
+                }
             }
 
         }
         stage("Quality gate") {
             steps {
+                script{
                 FAILED_STAGE=env.STAGE_NAME
                 waitForQualityGate abortPipeline: true
+                }
             }
         }
         stage('Test')
         {
             steps{
+                script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f  Calculator test'
+                }
             }
         }
         stage('Package')
@@ -61,27 +74,34 @@ pipeline{
         stage('Verify')
         {
             steps{
+                 steps{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f Calculator verify'
+                 }
             }
         }
         stage('Install')
         {
             steps{
+                 steps{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f  Calculator install '
+                 }
             }
         }
        stage('Artifactory')
     {
       steps{
+          {
           FAILED_STAGE=env.STAGE_NAME
         archiveArtifacts artifacts:'Calculator/target/*.jar',followSymlinks:false
+          }
       }
     }   
     stage('Deploy-To-Artifactory')
     {
       steps{
+          {
           FAILED_STAGE=env.STAGE_NAME
         rtUpload(
           serverId:'artifactory-server',
@@ -95,6 +115,7 @@ pipeline{
     }''',
           
 )
+          }
   }
 }   
             

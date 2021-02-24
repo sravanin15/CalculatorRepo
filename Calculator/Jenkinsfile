@@ -67,14 +67,16 @@ pipeline{
         stage('Package')
         {
             steps{
+                script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f  Calculator package'
+                }
             }
         }
         stage('Verify')
         {
             steps{
-                 steps{
+                 script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f Calculator verify'
                  }
@@ -83,7 +85,7 @@ pipeline{
         stage('Install')
         {
             steps{
-                 steps{
+                 script{
                 FAILED_STAGE=env.STAGE_NAME
                 bat 'mvn -f  Calculator install '
                  }
@@ -92,7 +94,7 @@ pipeline{
        stage('Artifactory')
     {
       steps{
-          {
+         script{
           FAILED_STAGE=env.STAGE_NAME
         archiveArtifacts artifacts:'Calculator/target/*.jar',followSymlinks:false
           }
@@ -101,7 +103,7 @@ pipeline{
     stage('Deploy-To-Artifactory')
     {
       steps{
-          {
+         script{
           FAILED_STAGE=env.STAGE_NAME
         rtUpload(
           serverId:'artifactory-server',

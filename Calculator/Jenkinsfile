@@ -91,7 +91,7 @@ pipeline{
                  }
             }
         }
-       stage('Artifactory')
+       stage('Collect-Artifactory')
     {
       steps{
          script{
